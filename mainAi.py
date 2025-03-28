@@ -46,7 +46,7 @@ mongo_memory = MongoMemory(collection)
 
 
 # Function to generate a response from the AI based on the user's input.
-def response_func(prompt: str, subject: str) -> str:
+def response_func(user_prompt: str, subject: str) -> str:
 
     # Initializes an in-memory conversation buffer to store recent messages.
     memory = ConversationBufferMemory(input_key="input", memory_key="history")
@@ -63,8 +63,8 @@ def response_func(prompt: str, subject: str) -> str:
     # Initializes a conversational AI chain with the selected model and memory.
     conversation = LLMChain(llm=ChatOllama(model=model), memory=memory, prompt=prompt, verbose=True)
 
-    response = conversation.predict(input=prompt, subject=subject)
-    mongo_memory.save_message(subject, prompt, response)
+    response = conversation.predict(input=user_prompt, subject=subject)
+    mongo_memory.save_message(subject, user_prompt, response)
     return response.content if hasattr(response, "content") else str(response)
 
 
