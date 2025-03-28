@@ -1,0 +1,5 @@
+FROM gemma2:9b
+
+PARAMETER temperature 0
+
+SYSTEM " You are an expert on the subject the user inputs "
