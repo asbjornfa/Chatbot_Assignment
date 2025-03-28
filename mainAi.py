@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter
 from langchain.chains.llm import LLMChain
+from langchain.chains.summarize.map_reduce_prompt import prompt_template
 from pydantic import BaseModel
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
@@ -48,7 +49,7 @@ mongo_memory = MongoMemory(collection)
 def response_func(prompt: str, subject: str) -> str:
 
     # Initializes an in-memory conversation buffer to store recent messages.
-    memory = ConversationBufferMemory()
+    memory = ConversationBufferMemory(input_key="input", memory_key="history")
 
 
     # Loads previous messages from MongoDB and adds them to the conversation memory.
